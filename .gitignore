@@ -1,2 +1,8 @@
 .idea/
-.pyc
+*.pyc
+*.toc
+*.aux
+*.log
+*.odp
+*.gz
+.DS_Store
