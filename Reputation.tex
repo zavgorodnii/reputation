@@ -22,13 +22,16 @@ This document describes the reputation system that is used to characterise agent
 
 The SONM ecosystem consists of \textit{buyers} and \textit{sellers}. Buyers rent computational resources from sellers to run arbitrary \textit{tasks}; a deal is made for a specific resource configuration and a specific period of time (i.e., not per task).
 
-When looking for a seller, a buyer searches the \textit{marketplace}. A deal made via marketplace is called a \textit{public} deal.
+When looking for a seller, buyer searches the \textit{marketplace}. Deals made via marketplace are called \textit{public} deals\footnote{See \ref{privateDeals} for \textit{private} deals}. When a deal is made, a certain amount of funds is reserved on both buyer's and seller's accounts. For buyer, it's the \textit{full cost} of the deal; for seller, it's a fraction of the full cost (either default or negotiated), hereinafter \textit{the deposit}.
 
-Any deal can have three possible outcomes:
+Both buyers and sellers have \textit{reputation} that is based on their activity in the SONM network, i.e., on the outcomes of public deals they had. Any public deal can have three possible outcomes:
 
 \begin{itemize}
-\item \textbf{Mutual satisfaction}. Buyer is satisfied with the service provided by seller, no 
+\item \textbf{Mutual satisfaction.} Buyer is satisfied with the service provided by seller. Buyer's and seller's reputation increases in proportion to deal cost.
+\item \textbf{Settled dispute.} Buyer is \textit{not} satisfied with the service provided by seller, seller admits its fault. Buyer pays seller in proportion to the time it held seller's resources, and seller returns buyer the deposit.
+\item \textbf{Claim.} Buyer is \textit{not} satisfied with the service provided by seller, seller refuses to admit its fault. Both buyer and seller keep their money, but lose their ratings in proportion to deal's cost.
 \end{itemize}
 
- 
+\subsection{Private deals} \label{privateDeals}
+
 \end{document}
