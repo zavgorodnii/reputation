@@ -5,6 +5,7 @@
 \usepackage{amsthm, amsmath, amssymb}
 \usepackage{setspace}\onehalfspacing
 \usepackage[loose,nice]{units}
+\usepackage[perpage]{footmisc}
  
 \title{SONM User Reputation Model}
 \author{Andrei Zavgorodnii, Anastasia Ashaeva}
@@ -23,21 +24,21 @@ This document describes the reputation model that is used to characterise agents
 
 The SONM ecosystem consists of \textit{buyers} and \textit{sellers}. Buyers rent computational resources from sellers to run arbitrary \textit{tasks}; a deal is made for a specific resource configuration and a specific period of time (i.e., not per task).
 
-When looking for a seller, buyer searches the \textit{marketplace}. Deals made via marketplace are called \textit{public} deals\footnote{See \ref{privateDeals} for \textit{private} deals.}. When a deal is made, a certain amount of funds is reserved on both buyer's and seller's accounts. For buyer, it's the \textit{full cost} of the deal; for seller, it's a fraction of the full cost (either default or negotiated), hereinafter \textit{the deposit}.
+When looking for a seller, buyer searches the \textit{marketplace}. When a deal is made, a certain amount of funds is reserved on both buyer's and seller's accounts. For buyer, it's the \textit{full price} of the deal; for seller, it's a fraction of the full price (either default or negotiated), hereinafter \textit{the deposit}.
 
 Both buyers and sellers have \textit{reputation} that is based on their activity in the SONM network, i.e., on the outcomes of public deals they had. Any public deal can have three possible outcomes:
 
 \begin{itemize}
-\item \textbf{Mutual satisfaction.} Buyer is satisfied with the service provided by seller. Buyer's and seller's reputation increase in proportion to deal cost.
-\item \textbf{Settled dispute.} Buyer is \textit{not} satisfied with the service provided by seller, seller admits its fault. Buyer pays seller in proportion to the time it held seller's resources, and seller returns buyer the deposit.
-\item \textbf{Claim.} Buyer is \textit{not} satisfied with the service provided by seller, seller refuses to admit its fault. Both buyer and seller keep their money, but lose their ratings in proportion to deal's cost.
+\item \textbf{Mutual satisfaction.} Buyer is satisfied with the service provided by seller. Buyer's and seller's reputation increase in proportion to deal price.
+\item \textbf{Settled dispute.} Buyer is \textit{not} satisfied with the service provided by seller, seller admits his/her fault. Buyer pays seller in proportion to the time it held seller's resources, and seller returns buyer the deposit.
+\item \textbf{Claim.} Buyer is \textit{not} satisfied with the service provided by seller, seller refuses to admit his/her fault. Both buyer and seller keep their money, but lose their ratings in proportion to deal's price.
 \end{itemize}
 
-Both buyers and sellers are motivated to have high reputation. Firstly, reputation (combined with deals history) defines the maximum cost of a deal you can make (see \ref{technicalDetails:reputation}). Secondly, reputation defines the order in which offers are displayed on the market, so in case of automatic matching agents with higher reputation will have better deals.
+Both buyers and sellers are motivated to have high reputation. Firstly, reputation (combined with deals history) defines the maximum price of a deal you can make (see \ref{reputation:theModel}). Secondly, reputation defines the order in which offers are displayed on the market, so in case of automatic matching agents with higher reputation will have better deals.
 
-\section{Technical details} \label{technicalDetails}
+\section{Reputation} \label{reputation}
 
-\subsection{Reputation} \label{technicalDetails:reputation}
+\subsection{The model} \label{reputation:theModel}
 
 SONM's reputation model is based on beta distribution's expected value based on the ideas proposed in \cite{josang2002beta}. The beta-family of probability density functions is a continuous family of functions indexed by the two parameters $ \alpha $ and $ \beta $. The beta distribution $ f(p | \alpha, \beta) $ can be expressed using the gamma function $ \Gamma $ as:
 
@@ -57,13 +58,13 @@ Suppose that we take $ n $ and $ m $ to be the number of positive and negative o
 \alpha = a^{X} + 1,\ \beta = b^{X} + 1.
 \end{equation}
 
-Positive outcomes correspond to successful deals, and negative outcomes correspond to claims. Then  reputation for user $ X $ is defined as probability expectation value of (\ref{betaDistribution})\footnote{See how this definition behaves in different scenarios in \ref{appendix:basicReputationScenarios}.}:
+Positive outcomes correspond to successful deals, and negative outcomes correspond to claims. Then  reputation for user $ X $ is defined as probability expectation value of (\ref{betaDistribution})\footnote{See how this definition behaves in different scenarios in \ref{appendix:basicReputation}.}:
 
 \begin{equation} \label{reputationFunction}
 \text{Rep}^{X} = E[\phi(p | \alpha, \beta)] = \frac{a + 1}{a + b + 2}.
 \end{equation}
 
-In (\ref{reputationFunction}) we assume that $ n $ and $ m $ are calculated by simply counting positive and negative outcomes, but it's natural to take deal cost into consideration. Suppose that $ \xi_{X} $ is the history of $ X $'s deals, and $ \xi_{Xi} $ is the cost of $ i $-th deal. Let's define helper functions to tell successful deals from unsuccessful:
+In (\ref{reputationFunction}) we assume that $ n $ and $ m $ are calculated by simply counting positive and negative outcomes, but it's natural to take deal price into consideration. Suppose that $ \xi_{X} $ is the history of $ X $'s deals, and $ \xi_{Xi} $ is the price of $ i $-th deal. Let's define helper functions to tell successful deals from unsuccessful:
 
 \begin{align}
 \begin{split}
@@ -74,7 +75,7 @@ In (\ref{reputationFunction}) we assume that $ n $ and $ m $ are calculated by s
 \end{split}
 \end{align}
 
-Then deal outcomes can be weighted by their cost as:
+Then deal outcomes can be weighted by their price as:
 
 \begin{align}
 \begin{split}
@@ -100,11 +101,48 @@ m_{\lambda}^{X} {}& = \sum_{i = 1}^{n} \sigma^{-}(\xi_X, i) \cdot \lambda^{(n - 
 
 where $ 0 \leq \lambda \leq 1 $. It's easy to see that if $ \lambda = 1 $, nothing is forgotten.
 
-\subsection{Private deals} \label{privateDeals}
+\subsection{Reputation and maximum deal price} \label{reputation:maxDealprice}
+
+Reputation defines the maximum possible price of a deal that a certain user can make. According to (\ref{reputationFunction}), reputation score is contained in the interval $ [0, 1] $; [we multiply the mean deal price for a user by the user's reputation score and add something to the resulting value to allow gradual price growth.]
+
+\section{Threat Model}
+
+It is well known \cite{ciccarelli2011collusion, maranzato2010fraud} that reputation systems are subject to collusion and fraud, or at least that such threat always exists. Since a higher reputation means more profit, some users try to fraudulently increase their reputation; alternatively, a user might 
+pick the strategy to eventually trade some of his reputation for immediate profit. This section describes various cases that fall into either of these scenarios, and the proposed means to counter such behaviour.
+
+\subsection{Fraudulent buyers}
+
+A malicious buyer can open a claim after the seller has fulfilled his obligations in good faith, which will result in reputation loss for both buyer and seller.\footnote{We assume that a diligent seller won't be willing to admit a non-existent fault and lose his deposit.} There's two different cases to consider: when there's a loner fraudulent user and when there's a group of users who behave fraudulently together.
+
+\subsubsection{Single buyer}
+
+For an isolated fraudulent buyer the motivation is to get resources for free by losing some of his/her reputation. It is important that to gain any significant profit from such actions (i.e., to make a deal of a significant price and refuse to pay for it) a buyer has to have a relatively long history of successful deals (see \ref{reputation:maxDealprice}).
+
+
+Now, from the seller's perspective, dealing with a fraudulent buyer means lost profit and reputational loss, but there's a difference when it comes to reputation: an average seller has much more deals in his/her history than any client; this means that in case of a claim a seller's reputation will be affected to a much lesser extent than that of a buyer. The buyer's reputation, on the other hand, will go down significantly, and it will take significant time to recover (see \ref{appendix:fraudAndRecovery} for detailed illustrations). Moreover, a seller can add a user to \textit{blacklist} and refuse to deal with him/her in the future; blacklisting will make it hard for a buyer to consistently fall back to fraudulent behaviour. 
+
+\subsubsection{A group of buyers}
+
+As we could see from the previous section, a single fraudulent buyer can not affect a seller's reputation significantly. There is, however, a scenario when a group of users work together to reduce some seller's reputation. Such group is most likely to consist of ``bots'', i.e. users that were created specifically for fraudulent purposes.\footnote{Apart from the case when users declare war on a seller for some external reason, which we are not going to discuss here.}
+
+For example, if for a certain market segment the supply is greater than demand, a seller might want to spoil his/her competitor's ratings to get better deals. Then a botnet can be launched to open deals with a certain seller and then refusing to accept the results. However, there's several factors that make this difficult to achieve.
+
+Firstly, SONM uses a ``know your client'' system to authenticate buyers. One of the easiest ways to pass the KYC check is to bind your account to a bank card; this means that to create a substantial botnet one will need to have access to many cards, which is obviously troublesome (if not illegal).
+
+Secondly, if a user manages to create lots of authenticated bots, he/she will have to gain enough reputation for each of those bots. To avoid wasting a lot of money, one might create a seller account that will collude with bot clients exclusively; however, [POSSIBLE: IDs of non-partnered sellers on marketplace will be shadowed, so public deals will be almost random].
+
+\subsection{Fraudulent sellers}
 
 \section{Appendix} \label{appendix}
 
-\subsection{Basic reputation scenarios} \label{appendix:basicReputationScenarios}
+\subsection{Basic reputation scenarios} \label{appendix:basicReputation}
+
+Lorem ipsum.
+
+\subsection{Single buyer: fraud and recovery scenarios} \label{appendix:fraudAndRecovery}
+
+Lorem ipsum.
+
 
 \newpage
 
@@ -113,7 +151,17 @@ where $ 0 \leq \lambda \leq 1 $. It's easy to see that if $ \lambda = 1 $, nothi
 \bibitem{josang2002beta} 
 Josang, Audun and Ismail, Roslan. 
 \textit{The beta reputation system}.
-Proceedings of the 15th bled electronic commerce conference, Vol. 5, p.2502-2511, 2002.
+Proceedings of the 15th bled electronic commerce conference, Vol. 5, p.2502--2511, 2002.
+
+\bibitem{ciccarelli2011collusion}
+Ciccarelli, Gianluca and Cigno, Renato Lo.
+\textit{Collusion in peer-to-peer systems}.
+Computer Networks, vol. 55, ?15, p.3517--3532, 2011.
+
+\bibitem{maranzato2010fraud}
+Maranzato, Rafael and Pereira, Adriano and do Lago, Alair Pereira and Neubert, Marden.
+\textit{Fraud detection in reputation systems in e-markets using logistic regression.}
+Proceedings of the 2010 ACM Symposium on Applied Computing, p.1454--1455, 2010.
 
 \end{thebibliography}
 
