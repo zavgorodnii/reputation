@@ -30,11 +30,13 @@ Both buyers and sellers have \textit{reputation} that is based on their activity
 
 \begin{itemize}
 \item \textbf{Mutual satisfaction.} Buyer is satisfied with the service provided by seller. Buyer's and seller's reputation increase in proportion to deal price.
-\item \textbf{Settled dispute.} Buyer is \textit{not} satisfied with the service provided by seller, seller admits his/her fault. Buyer pays seller in proportion to the time it held seller's resources, and seller returns buyer the deposit.
-\item \textbf{Claim.} Buyer is \textit{not} satisfied with the service provided by seller, seller refuses to admit his/her fault. Both buyer and seller keep their money, but lose their ratings in proportion to deal's price.
+\item \textbf{Settled dispute.} Buyer is \textit{not} satisfied with the service provided by seller, seller admits his fault. Buyer pays seller in proportion to the time it held seller's resources, and seller returns buyer the deposit.
+\item \textbf{Claim.} Buyer is \textit{not} satisfied with the service provided by seller, seller refuses to admit his fault. Both buyer and seller keep their money, but lose their ratings in proportion to deal's price.
 \end{itemize}
 
-Both buyers and sellers are motivated to have high reputation. Firstly, reputation (combined with deals history) defines the maximum price of a deal you can make (see \ref{reputation:theModel}). Secondly, reputation defines the order in which offers are displayed on the market, so in case of automatic matching agents with higher reputation will have better deals.
+Both buyers and sellers are motivated to have high reputation. Firstly, reputation (combined with deals history) defines the maximum price of a deal you can make (see \ref{reputation:theModel}). Secondly, reputation defines the order in which offers are displayed on the market, so agents with higher reputation will have better deals.
+
+Deals can be \textit{public} and \textit{private}. Private deals are made directly between buyers and sellers (i.e., bypassing the marketplace) and, importantly, \textit{do not affect user's reputation}. See section \ref{threatModel:buyers:group} for cases when private deals come into play.
 
 \section{Reputation} \label{reputation}
 
@@ -105,33 +107,35 @@ where $ 0 \leq \lambda \leq 1 $. It's easy to see that if $ \lambda = 1 $, nothi
 
 Reputation defines the maximum possible price of a deal that a certain user can make. According to (\ref{reputationFunction}), reputation score is contained in the interval $ [0, 1] $; [we multiply the mean deal price for a user by the user's reputation score and add something to the resulting value to allow gradual price growth.]
 
-\section{Threat Model}
+\section{Threat Model} \label{threatModel}
 
 It is well known \cite{ciccarelli2011collusion, maranzato2010fraud} that reputation systems are subject to collusion and fraud, or at least that such threat always exists. Since a higher reputation means more profit, some users try to fraudulently increase their reputation; alternatively, a user might 
 pick the strategy to eventually trade some of his reputation for immediate profit. This section describes various cases that fall into either of these scenarios, and the proposed means to counter such behaviour.
 
-\subsection{Fraudulent buyers}
+\subsection{Fraudulent buyers} \label{threatModel:buyers}
 
 A malicious buyer can open a claim after the seller has fulfilled his obligations in good faith, which will result in reputation loss for both buyer and seller.\footnote{We assume that a diligent seller won't be willing to admit a non-existent fault and lose his deposit.} There's two different cases to consider: when there's a loner fraudulent user and when there's a group of users who behave fraudulently together.
 
-\subsubsection{Single buyer}
+\subsubsection{Single buyer} \label{threatModel:buyers:single}
 
-For an isolated fraudulent buyer the motivation is to get resources for free by losing some of his/her reputation. It is important that to gain any significant profit from such actions (i.e., to make a deal of a significant price and refuse to pay for it) a buyer has to have a relatively long history of successful deals (see \ref{reputation:maxDealprice}).
+For an isolated fraudulent buyer the motivation is to get resources for free by losing some of his reputation. It is important that to gain any significant profit from such actions (i.e., to make a deal of a significant price and refuse to pay for it) a buyer has to have a relatively long history of successful deals (see \ref{reputation:maxDealprice}).
 
 
-Now, from the seller's perspective, dealing with a fraudulent buyer means lost profit and reputational loss, but there's a difference when it comes to reputation: an average seller has much more deals in his/her history than any client; this means that in case of a claim a seller's reputation will be affected to a much lesser extent than that of a buyer. The buyer's reputation, on the other hand, will go down significantly, and it will take significant time to recover (see \ref{appendix:fraudAndRecovery} for detailed illustrations). Moreover, a seller can add a user to \textit{blacklist} and refuse to deal with him/her in the future; blacklisting will make it hard for a buyer to consistently fall back to fraudulent behaviour. 
+Now, from the seller's perspective, dealing with a fraudulent buyer means lost profit and reputational loss, but there's a difference when it comes to reputation: an average seller has much more deals in his history than any client; this means that in case of a claim a seller's reputation will be affected to a much lesser extent than that of a buyer. The buyer's reputation, on the other hand, will go down significantly, and it will take significant time to recover (see \ref{appendix:fraudAndRecovery} for detailed illustrations). Moreover, a seller can add a user to \textit{blacklist} and refuse to deal with him/her in the future; blacklisting will make it hard for a buyer to consistently fall back to fraudulent behaviour. 
 
-\subsubsection{A group of buyers}
+\subsubsection{A group of buyers} \label{threatModel:buyers:group}
 
-As we could see from the previous section, a single fraudulent buyer can not affect a seller's reputation significantly. There is, however, a scenario when a group of users work together to reduce some seller's reputation. Such group is most likely to consist of ``bots'', i.e. users that were created specifically for fraudulent purposes.\footnote{Apart from the case when users declare war on a seller for some external reason, which we are not going to discuss here.}
+As we could see from the previous section, single fraudulent buyer can not affect a seller's reputation significantly. There is, however, a scenario when a group of users work together to reduce some seller's reputation. Such group is most likely to consist of ``bots'', i.e. users that were created specifically for fraudulent purposes.\footnote{Apart from the case when users declare war on a seller for some external reason, which we are not going to discuss here.}
 
-For example, if for a certain market segment the supply is greater than demand, a seller might want to spoil his/her competitor's ratings to get better deals. Then a botnet can be launched to open deals with a certain seller and then refusing to accept the results. However, there's several factors that make this difficult to achieve.
+For example, if for a certain market segment the supply is greater than demand, a seller might want to spoil his competitor's ratings to get better deals. Then a botnet can be launched to open deals with a certain seller and then refusing to accept the results. However, there's several factors that make this difficult to achieve.
 
 Firstly, SONM uses a ``know your client'' system to authenticate buyers. One of the easiest ways to pass the KYC check is to bind your account to a bank card; this means that to create a substantial botnet one will need to have access to many cards, which is obviously troublesome (if not illegal).
 
-Secondly, if a user manages to create lots of authenticated bots, he/she will have to gain enough reputation for each of those bots. To avoid wasting a lot of money, one might create a seller account that will collude with bot clients exclusively; however, [POSSIBLE: IDs of non-partnered sellers on marketplace will be shadowed, so public deals will be almost random].
+Secondly, if a user does manage to create lots of authenticated bots, he will have to gain enough reputation for each of those bots. To avoid wasting a lot of money, a seller will just make deals with himself. There is, however, a simple way to cope with such fraud: for any buyer, only $ N $ \textit{public} deals are allowed to be made with the same seller within a month. Subsequent deals have to be private and will not affect buyer's rating.
 
 \subsection{Fraudulent sellers}
+
+A fraudulent seller might provide incomplete service to a customer and gain some profit. This is possib
 
 \section{Appendix} \label{appendix}
 
