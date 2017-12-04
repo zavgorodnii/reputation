@@ -57,13 +57,13 @@ E[p] = \frac{\alpha}{\alpha + \beta}.
 Suppose that we take $ n $ and $ m $ to be the number of positive and negative outcomes for user $ X $ respectively; then we define $ \alpha $ and $ \beta $:
 
 \begin{equation}
-\alpha = a^{X} + 1,\ \beta = b^{X} + 1.
+\alpha = n^{X} + 1,\ \beta = m^{X} + 1.
 \end{equation}
 
 Positive outcomes correspond to successful deals, and negative outcomes correspond to claims. Then  reputation for user $ X $ is defined as probability expectation value of (\ref{betaDistribution})\footnote{See how this definition behaves in different scenarios in \ref{appendix:basicReputation}.}:
 
 \begin{equation} \label{reputationFunction}
-\text{Rep}^{X} = E[\phi(p | \alpha, \beta)] = \frac{a + 1}{a + b + 2}.
+\text{Rep}^{X} = E[\phi(p | \alpha, \beta)] = \frac{n + 1}{n + m + 2}.
 \end{equation}
 
 In (\ref{reputationFunction}) we assume that $ n $ and $ m $ are calculated by simply counting positive and negative outcomes, but it's natural to take deal price into consideration. Suppose that $ \xi_{X} $ is the history of $ X $'s deals, and $ \xi_{Xi} $ is the price of $ i $-th deal. Let's define helper functions to tell successful deals from unsuccessful:
