@@ -66,3 +66,12 @@ class Deals:
             fuckup_count=self.fucks,
             restore_count=0)
         self.__plot_reputation(history, funcs.baseline)
+
+    """ For web visualization"""
+
+    def fucks_generator(self):
+        """A generator for fucks numbers"""
+
+    def oks_generator(self):
+        """A generator for oks numbers"""
+

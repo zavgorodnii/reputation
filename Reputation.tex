@@ -141,7 +141,35 @@ A fraudulent seller might provide incomplete service to a customer and gain some
 
 \subsection{Basic reputation scenarios} \label{appendix:basicReputation}
 
-The following formula is used for calculating the rating, based on the Bernoulli distribution model, using a discrete probability distribution that mimics a random experiment with a known fact of success or failure.The Bernoulli distribution is a special case of the Binomial distribution where a single experiment/trial is conducted (n=1). It is also a special case of the two-point distribution, for which the outcome need not be a bit, i.e., the two possible outcomes need not be 0 and 1.
+The following formula is used for calculating the rating, based on the Bernoulli distribution model, using a discrete probability distribution that mimics a random experiment with a known fact of success or failure.The Bernoulli distribution is a special case of the Binomial distribution where a single experiment/trial is conducted (n=1). It is also a special case of the two-point distribution, for which the outcome doesn't have to be a bit, i.e., the two possible outcomes need not be 0 and 1.
+
+\begin{align}
+\begin{split}
+Rating = \frac{(\sum_{i=1}^{n}P_{i})} {(\sum_{i = 1}^{n}P_{i}+ \sum_{i = 1}^{n}Q_{i})}
+\end{split}
+\end{align}
+
+where  $P_{i} $ - cost good deal, $ Q_{i}$ - cost failed deal.
+
+The Rating with weight of the error (beta) takes part in the formation of the rating model. First, it has an empirical meaning:
+\begin{align}
+\begin{split}
+Rating = \frac{(\sum_{i=1}^{n}P_{i})} {(\sum_{i = 1}^{n}P_{i}+ \ \beta * \sum_{i = 1}^{n}Q_{i})}
+\end{split}
+\end{align}
+
+where  $  1 \leqslant \ \beta $ - coefficient of error sensitivity.
+
+In this way we have the following conditions:
+
+\begin{enumerate}
+\item A good user is mistaken with a probability of no more than $ p\{mistake\ |\ good \}  \leqslant  q_{good}  = 0.05$
+\item We want 95 \% of the users left, so the level of signifinance $\alpha= 0.05$. So we can fix the maximum permissible percentage of errors.
+\item The probability of a user's success during the next deal $p _{k+1}$ in accordance with the distribution by $ \beta(N+1, M+1)$
+\item  $P_{r} = P \{P_{k+1} \leq 0.95 \ |\ X_{k} \} = 1 - F_{\xi}(0.95)$ than ${\xi \sim \beta (N+1, M+1)}$.  If $0.05 \leq  P_{r}  \Rightarrow$ user should be banned.
+\end{enumerate}
+
+*** There must be a plot ****
 
 \subsection{Single buyer: fraud and recovery scenarios} \label{appendix:fraudAndRecovery}
 
