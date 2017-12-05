@@ -33,7 +33,7 @@ class Deals:
         self.fucks = len(self.items) - self.oks
 
     def __plot_reputation(self, history, func):
-        y_axis = [func(history[:x], memory=0.97) for x in range(len(history))]
+        y_axis = [func(history[:x], memory=0.99) for x in range(len(history))]
         x_axis = [x for x in range(len(history))]
         # y_axis = list()
         # for x in range(len(history)):
