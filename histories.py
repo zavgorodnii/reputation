@@ -26,6 +26,13 @@ class Deals:
     oks = 0
     fucks = 0
 
+    row = list()
+    #
+    # def append(self, n):
+    #     points = uniform_ideal(n)
+    #     for point in points:
+    #         self.items.append(Deal(True, point))
+
     def __init__(self, how_many_counts=100, fuckup_level=0.05, price_lo=5.0, price_hi=10.0):
         for x in range(how_many_counts):
             self.items.append(Deal(random.uniform(0, 1) > fuckup_level, random.uniform(price_lo, price_hi)))
@@ -60,18 +67,28 @@ class Deals:
         # ax.autoscale_view()
         plt.show()
 
-    def plot(self):
-        history = uniform_ideal_restored(
-            ideal_count=self.oks,
-            fuckup_count=self.fucks,
-            restore_count=0)
-        self.__plot_reputation(history, funcs.baseline)
+    def ok(self, n=1):
+        self.row.extend(uniform_ideal(n))
+        return self
 
-    """ For web visualization"""
+    def fuck(self, n=1):
+        self.row.extend(uniform_fuckup(n))
+        return self
 
-    def fucks_generator(self):
-        """A generator for fucks numbers"""
 
-    def oks_generator(self):
-        """A generator for oks numbers"""
+    def plot(self, rc=0):
+        # htc = list()
+        # for p in range(100):
+        #     r1 = uniform_ideal(abs(10-p))
+        #     r2 = uniform_fuckup(p)
+        #
+        #     # history = uniform_ideal_restored(
+        #     #     ideal_count=p,
+        #     #     fuckup_count=p,
+        #     #     restore_count=abs(10-p))
+        #
+        #     htc.extend(r1)
+        #     htc.extend(r2)
+        #self.__plot_reputation(self.row, funcs.baseline)
+        self.__plot_reputation(self.row, funcs.baseline)
 

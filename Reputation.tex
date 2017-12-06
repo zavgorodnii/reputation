@@ -15,7 +15,7 @@
 
 \maketitle
 \tableofcontents
- 
+
 \section{Overview} \label{overview}
 
 This document describes the reputation model that is used to characterise agents in the SONM network. Motivation: lost profit for the sellers, lost time for the buyers, etc.
@@ -109,7 +109,7 @@ Reputation defines the maximum possible price of a deal that a certain user can 
 
 \section{Threat Model} \label{threatModel}
 
-It is well known \cite{ciccarelli2011collusion, maranzato2010fraud} that reputation systems are subject to collusion and fraud, or at least that such threat always exists. Since a higher reputation means more profit, some users try to fraudulently increase their reputation; alternatively, a user might 
+It is well known \cite{ciccarelli2011collusion, maranzato2010fraud} that reputation systems are subject to collusion and fraud, or at least that such threat always exists. Since a higher reputation means more profit, some users try to fraudulently increase their reputation; alternatively, a user might
 pick the strategy to eventually trade some of his reputation for immediate profit. This section describes various cases that fall into either of these scenarios, and the proposed means to counter such behaviour.
 
 \subsection{Fraudulent buyers} \label{threatModel:buyers}
@@ -121,7 +121,7 @@ A malicious buyer can open a claim after the seller has fulfilled his obligation
 For an isolated fraudulent buyer the motivation is to get resources for free by losing some of his reputation. It is important that to gain any significant profit from such actions (i.e., to make a deal of a significant price and refuse to pay for it) a buyer has to have a relatively long history of successful deals (see \ref{reputation:maxDealprice}).
 
 
-Now, from the seller's perspective, dealing with a fraudulent buyer means lost profit and reputational loss, but there's a difference when it comes to reputation: an average seller has much more deals in his history than any client; this means that in case of a claim a seller's reputation will be affected to a much lesser extent than that of a buyer. The buyer's reputation, on the other hand, will go down significantly, and it will take significant time to recover (see \ref{appendix:fraudAndRecovery} for detailed illustrations). Moreover, a seller can add a user to \textit{blacklist} and refuse to deal with him/her in the future; blacklisting will make it hard for a buyer to consistently fall back to fraudulent behaviour. 
+Now, from the seller's perspective, dealing with a fraudulent buyer means lost profit and reputational loss, but there's a difference when it comes to reputation: an average seller has much more deals in his history than any client; this means that in case of a claim a seller's reputation will be affected to a much lesser extent than that of a buyer. The buyer's reputation, on the other hand, will go down significantly, and it will take significant time to recover (see \ref{appendix:fraudAndRecovery} for detailed illustrations). Moreover, a seller can add a user to \textit{blacklist} and refuse to deal with him/her in the future; blacklisting will make it hard for a buyer to consistently fall back to fraudulent behaviour.
 
 \subsubsection{A group of buyers} \label{threatModel:buyers:group}
 
@@ -179,9 +179,9 @@ Lorem ipsum.
 \newpage
 
 \begin{thebibliography}{1}
- 
-\bibitem{josang2002beta} 
-Josang, Audun and Ismail, Roslan. 
+
+\bibitem{josang2002beta}
+Josang, Audun and Ismail, Roslan.
 \textit{The beta reputation system}.
 Proceedings of the 15th bled electronic commerce conference, Vol. 5, p.2502--2511, 2002.
 
