@@ -21,20 +21,20 @@ def get_reputation(history, memory=0.9):
         else:
             neg += math.fabs(history[idx]) * math.pow(memory, h_len - idx)
 
-    return (pos + 1.0) / (pos + neg + 5.)
+    return (pos + 1.0) / (pos + 1.5 * neg + 2.)
 
 
-def get_max_deal_price(reputation, history, start_mu=2.):
-    if len(history) < 1:
-        return reputation * start_mu
+def get_max_deal_price(reputation, history, market_mu=100.0, trusted_history=15):
+    if len(history) < trusted_history:
+        return reputation * market_mu
 
-    return reputation * numpy.mean(history) + 0.2 * numpy.mean(history)
+    return reputation * sorted(history)[-1] + 0.5 * numpy.std(history)
 
 
-def propose_deal():
-    price = numpy.random.normal(15, 30, 1)
+def get_proposed_price(mu, std):
+    price = numpy.random.normal(mu, std, 1)
 
     if price[0] < 0:
-        return 5.
+        return 1.
 
     return price[0]
