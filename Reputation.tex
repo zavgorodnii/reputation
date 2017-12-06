@@ -70,10 +70,10 @@ In (\ref{reputationFunction}) we assume that $ n $ and $ m $ are calculated by s
 
 \begin{align}
 \begin{split}
-\sigma^{+}(\xi, i) {}& = \begin{cases} \xi_{Xi}, \qquad & \text{if}\ \xi_{Xi}\ \mbox{is successful}, \\ 0 & \mbox{otherwise.} \end{cases}
+\sigma^{+}(\xi, i) {}& = \begin{cases} \xi_{Xi}, & \text{if}\ \xi_{Xi}\ \mbox{is successful}, \\ 0 & \mbox{otherwise.} \end{cases}
 \end{split} \\
 \begin{split}
-\sigma^{-}(\xi, i) {}& = \begin{cases} -1 \cdot \xi_{Xi}, & \text{if}\ \xi_{Xi}\ \mbox{is not successful}, \\ 0 & \mbox{otherwise.} \end{cases}
+\sigma^{-}(\xi, i) {}& = \begin{cases} \xi_{Xi}, & \text{if}\ \xi_{Xi}\ \mbox{is not successful}, \\ 0 & \mbox{otherwise.} \end{cases}
 \end{split}
 \end{align}
 
@@ -102,6 +102,14 @@ m_{\lambda}^{X} {}& = \sum_{i = 1}^{n} \sigma^{-}(\xi_X, i) \cdot \lambda^{(n - 
 \end{align}
 
 where $ 0 \leq \lambda \leq 1 $. It's easy to see that if $ \lambda = 1 $, nothing is forgotten.
+
+So, an updated version of reputation function looks as follows:
+
+\begin{equation} \label{reputationFunction}
+\text{Rep}^{X} = \frac{\sum_{i = 1}^{n} \sigma^{+}(\xi_X, i) \cdot \lambda^{(n - i)} + 1}{\sum_{i = 1}^{n} \sigma^{+}(\xi_X, i) \cdot \lambda^{(n - i)} + \sum_{i = 1}^{n} \sigma^{-}(\xi_X, i) \cdot \lambda^{(n - i)} + 2}.
+\end{equation}
+
+\bigskip
 
 \subsection{Reputation and maximum deal price} \label{reputation:maxDealprice}
 
