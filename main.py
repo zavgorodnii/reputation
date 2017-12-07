@@ -10,26 +10,29 @@ def plot_reputation(history, reputation_func):
     y_axis = [reputation_func(history[:x], memory=0.99) for x in xrange(len(history))]
     x_axis = [x for x in xrange(len(history))]
 
-    plt.plot(x_axis, y_axis, 'ro')
+    plt.plot(x_axis, y_axis, '.', color="#000000")
 
     ax = plt.gca()
     ax.relim()
     ax.autoscale_view()
 
-    plt.show()
+    print(" ".join(["(%0.3f, %0.3f)" % x for x in zip(x_axis, y_axis)]))
+
+    # plt.show()
 
 
 def plot_max_price(reputation_func, max_price_func, num_tries=500):
     market_mu = 100.
     market_std = 50.
 
-    y_axis, history = [], []
+    y_axis, history, reps = [], [], []
     for x in xrange(num_tries):
         reputation = reputation_func(history[:x], memory=0.99)
+        reps.append(reputation)
         max_price = max_price_func(reputation, history, market_mu=market_mu)
         proposed_price = funcs.get_proposed_price(market_mu, market_std)
 
-        print("rep:", reputation, "max_price", max_price, "proposed_price", proposed_price, "<--", len(history))
+        print("rep:", reputation, "max_price", max_price, "proposed_price", proposed_price, "<--", len(history), "---", sum(history))
 
         y_axis.append(max_price)
 
@@ -38,13 +41,19 @@ def plot_max_price(reputation_func, max_price_func, num_tries=500):
 
     x_axis = [x for x in xrange(num_tries)]
 
-    plt.plot(x_axis, y_axis, 'ro')
+    plt.plot(x_axis, y_axis, '.', color="#000000")
+
+    print(" ".join(["(%0.3f, %0.3f)" % x for x in zip(x_axis, y_axis)]))
+
+    print("\n\n\n\n")
+
+    print(" ".join(["(%0.3f, %0.3f)" % x for x in zip([i for i in xrange(len(reps))], reps)]))
 
     ax = plt.gca()
     ax.relim()
     ax.autoscale_view()
 
-    plt.show()
+    # plt.show()
 
 
 def main():
