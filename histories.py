@@ -31,6 +31,7 @@ class Deal:
 class Deals:
     items = list()
     row = list()
+    fuckrow = list()
     oks = 0
     fucks = 0
     #
@@ -66,6 +67,7 @@ class Deals:
         return self
 
     def fuck(self, n=1):
+        self.fuckrow.extend(uniform_fuckup(n))
         self.row.extend(uniform_fuckup(n))
         return self
 
