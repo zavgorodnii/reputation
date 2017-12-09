@@ -9,7 +9,7 @@ import numpy
 def get_reputation(history, memory=0.9):
     h_len = len(history)
 
-    if h_len < 1:
+    if h_len < 2:
         return 0.5
 
     pos = 0.
@@ -24,10 +24,10 @@ def get_reputation(history, memory=0.9):
     h_mean = numpy.mean(history)
     h_std = numpy.std(history)
 
-    return (pos + 1.0) / (pos + neg + h_mean - h_std)
+    return pos / (pos + neg + h_mean + 2 * h_std)
 
 
-def get_max_deal_price(reputation, history, market_mu=100.0, trusted_history=10):
+def get_max_deal_price(reputation, history, market_mu=100.0, trusted_history=5):
     if len(history) < trusted_history:
         return reputation * market_mu
 
