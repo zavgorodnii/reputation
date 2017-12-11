@@ -65,7 +65,7 @@ Suppose that we take $ n $ and $ m $ to be the number of positive and negative o
 \alpha = n_{X} + 1,\ \beta = m_{X} + 1.
 \end{equation}
 
-Note that in \cite{josang2002beta} we start counting from $ 1 $ for both successful and unsuccessful outcomes to set initial reputation to 0.5.
+Note that in (\ref{alphaBeta}) we start counting from $ 1 $ for both successful and unsuccessful outcomes to set initial reputation to 0.5.
 
 Positive outcomes correspond to successful deals, and negative outcomes correspond to claims. Then  reputation for user $ X $ is defined as probability expectation value of (\ref{betaDistribution}):
 
@@ -97,7 +97,7 @@ m_{X} {}& = \sum_{i = 1}^{n} \omega^{-}(\xi_X, i),
 
 where $ n $ is the total number of deals made by $ X $. Now that we count weights (and not just outcomes) we must update (\ref{alphaBeta}) to stabilize reputation growth in the very beginning of deals history; instead of adding one history unit we add user's \textit{mean deal price}\footnote{We set reputation to zero if there's no deals history.}:
 
-\begin{equation} \label{alphaBeta}
+\begin{equation} \label{alphaBetaRefined}
 \alpha = n_{X} + \mu_{\xi_X},\ \beta = m_{X} + \mu_{\xi_X}.
 \end{equation}
 
@@ -116,7 +116,7 @@ where $ 0 \leq \lambda \leq 1 $. It's easy to see that if $ \lambda = 1 $, nothi
 
 So, the final version of reputation function looks as follows\footnote{See how this definition behaves in different scenarios in \ref{appendix:basicReputation}.}:
 
-\begin{equation} \label{reputationFunction}
+\begin{equation} \label{reputationFunctionRefined}
 \text{Rep}_{X} = \frac{\sum_{i = 1}^{n} \omega^{+}(\xi_X, i) \cdot \lambda^{(n - i)} + \mu_{\xi_X}}{\sum_{i = 1}^{n} \omega^{+}(\xi_X, i) \cdot \lambda^{(n - i)} + \sum_{i = 1}^{n} \omega^{-}(\xi_X, i) \cdot \lambda^{(n - i)} + 2 * \mu_{\xi_X}}.
 \end{equation}
 
