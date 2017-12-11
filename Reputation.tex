@@ -73,14 +73,14 @@ Positive outcomes correspond to successful deals, and negative outcomes correspo
 \text{Rep}_{X} = E[\phi(p | \alpha, \beta)] = \frac{n + 1}{n + m + 2}.
 \end{equation}
 
-In (\ref{reputationFunction}) we assume that $ n $ and $ m $ are calculated by simply counting positive and negative outcomes, but it's natural to take deal price into consideration. Suppose that $ \xi_{X} $ is the history of $ X $'s deals, and $ \xi_{Xi} $ is the price of $ i $-th deal. Let's define helper functions to tell successful deals from unsuccessful:
+In (\ref{reputationFunction}) we assume that $ n $ and $ m $ are calculated by simply counting positive and negative outcomes, but it's natural to take deal price into consideration. Suppose that $ \xi_{X} $ is the history of $ X $'s deals, and $ \xi_{Xi} $ is the price of $ i $-th deal (negative signed if the deal ended in conflict). Let's define helper functions to tell successful deals from unsuccessful:
 
 \begin{align}
 \begin{split}
-\omega^{+}(\xi, i) {}& = \begin{cases} \xi_{Xi}, & \text{if}\ \xi_{Xi}\ \mbox{is successful}, \\ 0 & \mbox{otherwise.} \end{cases}
+\omega^{+}(\xi, i) {}& = \begin{cases} \xi_{Xi}, & \text{if}\ \xi_{Xi} > 0\, \\ 0 & \mbox{otherwise.} \end{cases}
 \end{split} \\
 \begin{split}
-\omega^{-}(\xi, i) {}& = \begin{cases} \xi_{Xi}, & \text{if}\ \xi_{Xi}\ \mbox{is not successful}, \\ 0 & \mbox{otherwise.} \end{cases}
+\omega^{-}(\xi, i) {}& = \begin{cases} |\xi_{Xi}|, & \text{if}\ \xi_{Xi}\ < 0, \\ 0 & \mbox{otherwise.} \end{cases}
 \end{split}
 \end{align}
 
@@ -88,10 +88,10 @@ Then deal outcomes can be weighted by their price as:
 
 \begin{align}
 \begin{split}
-n_{\lambda}^{X} {}& = \sum_{i = 1}^{n} \omega^{+}(\xi_X, i)
+n_{X} {} & = \sum_{i = 1}^{n} \omega^{+}(\xi_X, i)
 \end{split} \\
 \begin{split}
-m_{\lambda}^{X} {}& = \sum_{i = 1}^{n} \omega^{-}(\xi_X, i),
+m_{X} {}& = \sum_{i = 1}^{n} \omega^{-}(\xi_X, i), 
 \end{split}
 \end{align}
 
@@ -122,9 +122,13 @@ So, the final version of reputation function looks as follows\footnote{See how t
 
 \bigskip
 
-\subsection{Reputation and maximum deal price} \label{reputation:maxDealprice}
+\subsection{Reputation an fraud rate} \label{reputation:fraudRate}
 
-Reputation defines the maximum possible price of a deal that a certain user can make. According to (\ref{reputationFunction}), reputation score is contained in the interval $ [0, 1] $; [we multiply the mean deal price for a user by the user's reputation score and add something to the resulting value to allow gradual price growth.]
+\textit{Fraud rate} is a rational number from $ (0, +\infty) $ that is proportional to the probability of having an unsuccessful deal of price $ p $ with user $ X $:
+
+\begin{equation} \label{reputationFunction}
+F(p) = \frac{p}{\text{Rep}_X \cdot \sum_{i=1}^{n}\xi_{Xi}}
+\end{equation}
 
 \section{Threat Model} \label{threatModel}
 
@@ -137,7 +141,7 @@ A malicious buyer can open a claim after the seller has fulfilled his obligation
 
 \subsubsection{Single buyer} \label{threatModel:buyers:single}
 
-For an isolated fraudulent buyer the motivation is to get resources for free by losing some of his reputation. It is important that to gain any significant profit from such actions (i.e., to make a deal of a significant price and refuse to pay for it) a buyer has to have a relatively long history of successful deals (see \ref{reputation:maxDealprice}).
+For an isolated fraudulent buyer the motivation is to get resources for free by losing some of his reputation. It is important that to gain any significant profit from such actions (i.e., to make a deal of a significant price and refuse to pay for it) a buyer has to have a relatively long history of successful deals (see \ref{reputation:fraudRate}).
 
 
 Now, from the seller's perspective, dealing with a fraudulent buyer means lost profit and reputational loss, but there's a difference when it comes to reputation: an average seller has much more deals in his history than any client; this means that in case of a claim a seller's reputation will be affected to a much lesser extent than that of a buyer. The buyer's reputation, on the other hand, will go down significantly, and it will take significant time to recover (see \ref{appendix:fraudAndRecovery} for detailed illustrations). Moreover, a seller can add a user to \textit{blacklist} and refuse to deal with him/her in the future; blacklisting will make it hard for a buyer to consistently fall back to fraudulent behaviour. 
@@ -215,23 +219,6 @@ A fraudulent seller might provide incomplete service to a customer and gain some
 \end{center}
 
 \newpage
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 \begin{center}
 \begin{tikzpicture}[scale=0.8]
