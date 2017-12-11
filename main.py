@@ -62,9 +62,9 @@ def main():
 
     # # Plot reputation build-up, then [1..6] conflicts.
     # for x in range(1, 7):
-    #     plot_reputation(histories.uniform_ideal_restored(ideal_count=80, fuckup_count=x, restore_count=30), funcs.get_reputation)
+    plot_reputation(histories.uniform_ideal_restored(ideal_count=80, fuckup_count=6, restore_count=26), funcs.get_reputation)
     #     print("\n")
-    plot_reputation(histories.uniform_ideal(80) + histories.uniform_with_conflicts(40, each=5), funcs.get_reputation)
+    # plot_reputation(histories.uniform_ideal(80) + histories.uniform_with_conflicts(40, each=5), funcs.get_reputation)
     # plot_reputation(histories.uniform_with_conflicts(120, each=5), funcs.get_reputation)
 
     # plot_max_price(funcs.get_reputation, funcs.get_max_deal_price)
