@@ -6,7 +6,7 @@ import math
 import numpy
 
 
-def get_reputation(history, memory=0.9, weight=0.07):
+def get_reputation(history, memory=0.9, weight=0.3):
     h_len = len(history)
 
     if h_len < 1:
@@ -23,7 +23,7 @@ def get_reputation(history, memory=0.9, weight=0.07):
 
     stabilizer = numpy.mean(history)
 
-    return (weight * pos + stabilizer) / (weight * (pos + neg) + 2 * stabilizer)
+    return (weight * pos + stabilizer) / ((weight * pos) + neg + 2 * stabilizer)
 
 
 def get_max_deal_price(reputation, history, market_mu=100.0, trusted_history=5):
