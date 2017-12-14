@@ -5,8 +5,6 @@ import random
 
 
 def uniform_price(minimum=5, maximum=10):
-    # предложенная сделка
-    # return 42.0
     return random.uniform(minimum, maximum)
 
 

@@ -21,15 +21,18 @@ def can_make_deal(price, history, market_mean_price):
 
 
 def main():
-    history = histories.uniform_prices(120) + histories.uniform_with_conflicts(20, each=3)
-    # history = histories.uniform_prices(120) + histories.uniform_fuckup(30)
+
+    # fig 2
+    # history = histories.uniform_prices(120) + histories.uniform_fuckup(10) +
+    # histories.uniform_with_conflicts(32, each=10)
+    history = histories.uniform_prices(120) + histories.uniform_with_conflicts(40, each=5)
     history_without_outliers = []
     market_mean_price = numpy.mean(history)
 
     for x in range(len(history)):
-        if len(history_without_outliers) < 12:
+        if len(history_without_outliers) < 3:
             print("history without outliers:", history_without_outliers)
-            hist = history[:12]
+            hist = history[:3]
         else:
             hist = history_without_outliers[:x]
 
@@ -42,20 +45,11 @@ def main():
     y_axis = [funcs.get_reputation(history_without_outliers[:x], memory=0.99)
               for x in range(len(history_without_outliers))]
     x_axis = [x for x in range(len(history_without_outliers))]
-
-    plt.plot(x_axis, y_axis, 'ro',
-             label='Rating(Q)',
-             linewidth=2,
-             linestyle='dashed',
-             marker='o',
-             markersize=2,
-             markerfacecolor='blue')
-    plt.ylabel('$Fraud (price)$')
-    plt.xlabel('$Q$')
-    plt.title(u"Dependence f(x) on the moment in the history of deals")
-    plt.legend()
+    print(" ".join(["(%0.3f, %0.3f)" % x for x in zip(x_axis, y_axis)]))
+    plt.plot(x_axis, y_axis, label='Fraud(price)',  color="#000000")
+    plt.ylabel('$Reputation$')
+    plt.xlabel('$Deals$')
     plt.show()
-
 
 if __name__ == "__main__":
     main()
