@@ -15,6 +15,7 @@ def can_make_deal(price, history, market_mean_price):
         std = numpy.std(history)
         if std == 0:
             std = mean * 1.25
+    #         1.41
 
     lower = mean - 2 * std
     upper = mean + 2 * std
@@ -28,15 +29,17 @@ def main():
     history_without_outliers = []
     market_mean_price = numpy.mean(history)
     market_mu = 100.
-    market_std = 40.
-    accumulation_period = market_mu - 1.99 * market_std
+    market_std = 49.
+    accumulation_period = market_mu - 2 * market_std
 
     for x in range(len(history)):
         if len(history_without_outliers) < numpy.fabs(accumulation_period):
+            cas = int(numpy.fabs(accumulation_period))
+            print("cas: ", cas)
             print("history without outliers:", history_without_outliers)
-            hist = history[:3]
+            hist = history[:cas]
         else:
-            hist = history_without_outliers[:x]
+            hist = history_without_outliers[:cas]
 
         if can_make_deal(numpy.fabs(history[x]), hist, market_mean_price):
             history_without_outliers.append(history[x])
