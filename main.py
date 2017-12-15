@@ -9,29 +9,30 @@ def can_make_deal(price, history, market_mean_price):
     if len(history) == 0:
         mean = market_mean_price
         #стандартизированный коэффциент beta
-        std = mean * 1.41
+        std = mean * 1.25
     else:
         mean = numpy.mean(history)
         std = numpy.std(history)
         if std == 0:
-            std = mean * 1.41
+            std = mean * 1.25
 
     lower = mean - 2 * std
     upper = mean + 2 * std
+    print("upper: ", upper, "lower: ", lower, "std: ", std, "mean: ", mean)
+    print(price)
     return lower <= price <= upper
 
 
 def main():
-
-    # fig 2
-    # history = histories.uniform_prices(120) + histories.uniform_fuckup(10) +
-    # histories.uniform_with_conflicts(32, each=10)
-    history = histories.uniform_with_conflicts(120, 15)
+    history = histories.uniform_prices(10) + histories.uniform_with_conflicts(120, 15)
     history_without_outliers = []
     market_mean_price = numpy.mean(history)
+    market_mu = 100.
+    market_std = 40.
+    accumulation_period = market_mu - 1.99 * market_std
 
     for x in range(len(history)):
-        if len(history_without_outliers) < 3:
+        if len(history_without_outliers) < numpy.fabs(accumulation_period):
             print("history without outliers:", history_without_outliers)
             hist = history[:3]
         else:
@@ -39,9 +40,11 @@ def main():
 
         if can_make_deal(numpy.fabs(history[x]), hist, market_mean_price):
             history_without_outliers.append(history[x])
+            print("MMP :", market_mean_price)
         else:
             print(x)
             history_without_outliers.append(history_without_outliers[-1])
+            #возвращает последний элемент
 
     y_axis = [funcs.get_reputation(history_without_outliers[:x], memory=0.99)
               for x in range(len(history_without_outliers))]
