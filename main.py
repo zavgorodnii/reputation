@@ -8,6 +8,7 @@ def can_make_deal(price, history, market_mean_price):
     # возвращает ценник между mu+2sigma <= X <= mu-2sigma
     if len(history) == 0:
         mean = market_mean_price
+        #стандартизированный коэффциент beta
         std = mean * 1.41
     else:
         mean = numpy.mean(history)
@@ -17,7 +18,7 @@ def can_make_deal(price, history, market_mean_price):
 
     lower = mean - 2 * std
     upper = mean + 2 * std
-    return lower < price < upper
+    return lower <= price <= upper
 
 
 def main():
@@ -25,7 +26,7 @@ def main():
     # fig 2
     # history = histories.uniform_prices(120) + histories.uniform_fuckup(10) +
     # histories.uniform_with_conflicts(32, each=10)
-    history = histories.uniform_prices(120) + histories.uniform_with_conflicts(40, each=5)
+    history = histories.uniform_with_conflicts(120, 15)
     history_without_outliers = []
     market_mean_price = numpy.mean(history)
 
