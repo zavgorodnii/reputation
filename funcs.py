@@ -4,7 +4,7 @@ import math
 import numpy
 
 
-def get_reputation(history, memory=0.9, weight=0.2):
+def get_reputation(history, memory=0.9, weight=0.4):
     h_len = len(history)
 
     if h_len < 1:

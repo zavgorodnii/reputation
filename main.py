@@ -94,7 +94,7 @@ def main():
     # for x in range(1, 7):
     #     plot_reputation(histories.uniform_ideal_restored(ideal_count=80, fuckup_count=x, restore_count=26), funcs.get_reputation)
     #     print("\n")
-    plot_fraud(histories.uniform_ideal(120) + histories.uniform_with_conflicts(120, each=15), funcs.can_make_deal)
+    plot_fraud(histories.uniform_ideal(80) + histories.uniform_with_conflicts(80, each=10), funcs.can_make_deal)
     # plot_reputation(histories.uniform_ideal(80) + histories.uniform_with_conflicts(40, each=10), funcs.get_reputation)
     # plot_reputation(histories.uniform_with_conflicts(120, each=10), funcs.get_reputation)
 
